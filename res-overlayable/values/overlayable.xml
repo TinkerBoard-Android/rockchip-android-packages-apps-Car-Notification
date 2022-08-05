@@ -19,6 +19,8 @@ REGENERATE USING packages/apps/Car/tests/tools/rro/generate-overlayable.py
       <item type="animator" name="clear_all_animate_out"/>
       <item type="animator" name="heads_up_notification_transition_in"/>
       <item type="animator" name="heads_up_notification_transition_out"/>
+      <item type="attr" name="cardCornerRadius"/>
+      <item type="attr" name="cardElevation"/>
       <item type="attr" name="categoryCall"/>
       <item type="attr" name="isHeadsUp"/>
       <item type="attr" name="maxLines"/>

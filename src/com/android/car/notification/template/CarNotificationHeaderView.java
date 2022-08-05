@@ -32,6 +32,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.DateTimeView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,6 +56,8 @@ public class CarNotificationHeaderView extends LinearLayout {
     private ImageView mIconView;
     @Nullable
     private TextView mHeaderTextView;
+    @Nullable
+    private DateTimeView mTimeView;
 
     public CarNotificationHeaderView(Context context) {
         super(context);
@@ -98,6 +101,10 @@ public class CarNotificationHeaderView extends LinearLayout {
         super.onFinishInflate();
         mIconView = findViewById(R.id.app_icon);
         mHeaderTextView = findViewById(R.id.header_text);
+        mTimeView = findViewById(R.id.time);
+        if (mTimeView != null) {
+            mTimeView.setShowRelativeTime(true);
+        }
     }
 
     /**
@@ -144,6 +151,9 @@ public class CarNotificationHeaderView extends LinearLayout {
             if (mHeaderTextView != null) {
                 mHeaderTextView.setText(appName);
             }
+            if (mTimeView != null) {
+                mTimeView.setVisibility(View.GONE);
+            }
             return;
         }
 
@@ -165,6 +175,10 @@ public class CarNotificationHeaderView extends LinearLayout {
         // Optional field: time
         if (notification.showsTime()) {
             stringBuilder.append(mSeparatorText);
+            if (mTimeView != null) {
+                mTimeView.setVisibility(View.VISIBLE);
+                mTimeView.setTime(notification.when);
+            }
         }
 
         mHeaderTextView.setText(BidiFormatter.getInstance().unicodeWrap(stringBuilder,
@@ -190,6 +204,15 @@ public class CarNotificationHeaderView extends LinearLayout {
     }
 
     /**
+     * Sets the text color for the time field.
+     */
+    public void setTimeTextColor(@ColorInt int color) {
+        if (mTimeView != null) {
+            mTimeView.setTextColor(color);
+        }
+    }
+
+    /**
      * Resets the notification header empty.
      */
     public void reset() {
@@ -203,6 +226,12 @@ public class CarNotificationHeaderView extends LinearLayout {
             mHeaderTextView.setVisibility(View.GONE);
             mHeaderTextView.setText(null);
             setHeaderTextColor(mDefaultTextColor);
+        }
+
+        if (mTimeView != null) {
+            mTimeView.setVisibility(View.GONE);
+            mTimeView.setTime(0);
+            setTimeTextColor(mDefaultTextColor);
         }
     }
 
